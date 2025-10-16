@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./auth-service/.env
+    networks:
+      - backend
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./user-service/.env
+    networks:
+      - backend
+
+  chat-service:
+    build: ./chat-service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./chat-service/.env
+    networks:
+      - backend
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - auth-service
+      - user-service
+      - chat-service
+    networks:
+      - backend
+
+networks:
+  backend:
