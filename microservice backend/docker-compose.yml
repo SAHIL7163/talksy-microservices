@@ -28,6 +28,62 @@ services:
     networks:
       - backend
 
+  ai-service:
+    build: ./AI-service
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./AI-service/.env
+    networks:
+      - backend
+    depends_on:
+      - chat-service
+      - qdrant
+      - redis
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8003"]
+
+  ai-worker:
+    build: ./AI-service
+    env_file:
+      - ./AI-service/.env
+    command:
+      [
+        "celery",
+        "-A",
+        "celery_worker.celery",
+        "worker",
+        "--loglevel=info",
+        "--concurrency=2",
+        "--pool=threads",
+      ]
+    depends_on:
+      - redis
+      - ai-service
+    networks:
+      - backend
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333" # REST API
+      - "6334:6334" # gRPC
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    networks:
+      - backend
+
   nginx:
     build: ./nginx
     ports:
@@ -36,8 +92,13 @@ services:
       - auth-service
       - user-service
       - chat-service
+      - ai-service
     networks:
       - backend
 
 networks:
   backend:
+
+volumes:
+  qdrant_storage:
+  redis_data:
