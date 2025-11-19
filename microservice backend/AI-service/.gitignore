@@ -5,3 +5,6 @@ venv/
 # Python cache
 __pycache__/
 *.pyc
+
+.env
+ca.pem
