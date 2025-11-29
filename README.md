@@ -3,25 +3,6 @@
 Quick reference for installation, running, and implementation notes for this workspace.
 
 <img width="4678" height="2429" alt="image" src="https://github.com/user-attachments/assets/ea811de4-2e09-49f2-be97-0914626d0d15" />
-
-   ┌────────────┐
-   │ Chat Server│
-   └──────┬─────┘
-          │  (produce)
-          ▼
-   ┌──────────────────┐
-   │   Kafka Topic       (chat.messages)
-   └──────────────────┘
-        │          │
-        │          │
-  (consume)     (consume)
-        │           │
-        ▼           ▼
-┌────────────┐   ┌─────────────┐
-│ MongoDB    │   │  AI Service │
-│ Consumer   │   │ Consumer    │
-└────────────┘   └─────────────┘
-
 ## Frontend
 
 Location: ./frontend
