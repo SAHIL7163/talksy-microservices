@@ -2,7 +2,12 @@
 
 Quick reference for installation, running, and implementation notes for this workspace.
 
+<img width="1891" height="870" alt="image" src="https://github.com/user-attachments/assets/27c395e9-9832-4c92-b678-00e1e96a70bc" />
+
+## Architecture
+
 <img width="4678" height="2429" alt="image" src="https://github.com/user-attachments/assets/ea811de4-2e09-49f2-be97-0914626d0d15" />
+
 ## Frontend
 
 Location: ./frontend
